@@ -7,6 +7,7 @@ import {
   Dialog,
   DialogContent,
   Input,
+  TextField,
   Tooltip,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
@@ -15,12 +16,14 @@ import { useState } from "react";
 import axios from "axios";
 import { InputFileUpload, Container, StyledButton } from "./styles";
 import DialogInfo from "components/DialogInfo";
+import TextInputDebounced from "components/TextInputDebounced";
 
 export default function Home() {
   const [files, setFiles] = useState([]);
   const [results, setResults] = useState([]);
   const [errorText, setErrorText] = useState("");
   const [timeoutId, setTimeoutId] = useState(null);
+  const [topChattiest, setTopChattiest] = useState(0);
 
   const fileTypes = ["TXT"];
 
@@ -57,6 +60,7 @@ export default function Home() {
   const handleReset = () => {
     setFiles([]);
     setResults([]);
+    setTopChattiest(0);
     setErrorText("");
   };
 
@@ -73,20 +77,21 @@ export default function Home() {
     handleError('File type is not supported. Please only upload ".txt" files.');
   };
 
+  const handleTextInput = (event) => {
+    clearTimeout(timeoutId);
+    const timeout = setTimeout(() => {
+      setTopChattiest(event.target.value);
+      console.log(event.target.value);
+    }, 500);
+    setTimeoutId(timeout);
+  };
+
   return (
     <Container>
       <Box className={"upload-box"}>
         <Box className={"title-box"}>
           <h1>Upload a log file (.txt)</h1>
           <DialogInfo />
-          {/* <Tooltip title="Help">
-            <Box onClick={() => console.log("tooltip clicked")}>
-              <InfoIcon />
-              <Dialog open>
-                <DialogContent>text text text</DialogContent>
-              </Dialog>
-            </Box>
-          </Tooltip> */}
         </Box>
         <Box className={"upload-box-inner"}>
           <form onSubmit={(event) => handleFileUpload(event)}>
@@ -132,6 +137,12 @@ export default function Home() {
               >
                 Reset
               </StyledButton>
+              <TextInputDebounced
+                label={"Top # chattiest"}
+                setText={setTopChattiest}
+                type="number"
+                disabled={files.length < 1}
+              />
             </Box>
           </form>
         </Box>
@@ -142,11 +153,18 @@ export default function Home() {
           className={`results-box-inner ${results.length > 0 ? "success" : ""}`}
         >
           {results.length > 0 &&
-            results.map((result, index) => (
-              <div key={index}>
-                {index + 1}. {result.user} - {result.count} words
-              </div>
-            ))}
+            results
+              .slice(
+                0,
+                !topChattiest || topChattiest === 0
+                  ? results.length
+                  : topChattiest
+              )
+              .map((result, index) => (
+                <div key={index}>
+                  {index + 1}. {result.user} - {result.count} words
+                </div>
+              ))}
         </Box>
       </Box>
     </Container>

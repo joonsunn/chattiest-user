@@ -74,7 +74,7 @@ export const StyledButton = (props) => {
     borderRadius: "15px",
     border: "1px solid black",
     color: "black",
-    width: "150px",
+    width: "100px",
     "&.submit": {
       "&:hover": {
         backgroundColor: "green",
