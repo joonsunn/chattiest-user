@@ -1,95 +1,108 @@
+"use client";
+
 import Image from "next/image";
-import styles from "./page.module.css";
+// import styles from "./page.module.css";
+import { Box, Button, Card, Input } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { FileUploader } from "react-drag-drop-files";
+import { useState } from "react";
+import axios from "axios";
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
+
+export function InputFileUpload({ onChange }) {
+  return (
+    <Button
+      component="label"
+      role={undefined}
+      variant="contained"
+      tabIndex={-1}
+      startIcon={<CloudUploadIcon />}
+    >
+      Upload file
+      <VisuallyHiddenInput
+        type="file"
+        accept="text/plain"
+        onChange={onChange}
+        multiple
+      />
+    </Button>
+  );
+}
+
+const fileTypes = ["TXT"];
 
 export default function Home() {
+  const [files, setFiles] = useState([]);
+  const [results, setResults] = useState([]);
+  const handleFileUpload = async (event) => {
+    event.preventDefault();
+    const file = Array.from(files);
+    console.log(file);
+    const formData = new FormData();
+    formData.append("file", file[0]);
+    console.log(formData);
+    try {
+      const response = await axios.post("/api/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setResults(response.data.data);
+
+      // console.log(response.data.data);
+    } catch (error) {
+      console.log("unable to read file");
+    }
+  };
+
+  const handleFileSelected = (event) => {
+    console.log(event.target.files);
+    setFiles(event.target.files);
+    // console.log(event);
+  };
+
+  const handleDragAndDropFile = (event) => {
+    console.log(event);
+    setFiles(event);
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+    <Box>
+      <div>Hello world</div>
+      <form onSubmit={(event) => handleFileUpload(event)}>
+        <FileUploader
+          name="file"
+          types={fileTypes}
+          handleChange={handleDragAndDropFile}
+          multiple
         />
-      </div>
+        <InputFileUpload onChange={handleFileSelected} />
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+        <Button type="submit">Submit</Button>
+      </form>
+      {files.length > 0 &&
+        Array.from(files).map((file, index) => (
+          <div key={index}>{file.name}</div>
+        ))}
+      {results.length > 0 &&
+        results.map((result, index) => (
+          <div key={index}>
+            {result.user}: {result.count} words
+          </div>
+        ))}
+    </Box>
   );
 }
