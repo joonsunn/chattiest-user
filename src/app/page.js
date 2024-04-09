@@ -1,58 +1,30 @@
 "use client";
 
 import Image from "next/image";
-// import styles from "./page.module.css";
-import { Box, Button, Card, Input } from "@mui/material";
+import { Box, Button, Card, Input, Tooltip } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import InfoIcon from "@mui/icons-material/Info";
 import { FileUploader } from "react-drag-drop-files";
 import { useState } from "react";
 import axios from "axios";
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
-
-export function InputFileUpload({ onChange }) {
-  return (
-    <Button
-      component="label"
-      role={undefined}
-      variant="contained"
-      tabIndex={-1}
-      startIcon={<CloudUploadIcon />}
-    >
-      Upload file
-      <VisuallyHiddenInput
-        type="file"
-        accept="text/plain"
-        onChange={onChange}
-        multiple
-      />
-    </Button>
-  );
-}
-
-const fileTypes = ["TXT"];
+import { InputFileUpload, Container, StyledButton } from "./styles";
 
 export default function Home() {
   const [files, setFiles] = useState([]);
   const [results, setResults] = useState([]);
+  const [errorText, setErrorText] = useState("");
+  const [timeoutId, setTimeoutId] = useState(null);
+
+  const fileTypes = ["TXT"];
+
   const handleFileUpload = async (event) => {
     event.preventDefault();
     const file = Array.from(files);
-    console.log(file);
     const formData = new FormData();
-    formData.append("file", file[0]);
-    console.log(formData);
+    for (let i = 0; i < file.length; i++) {
+      formData.append(file[i].name, file[i]);
+    }
     try {
       const response = await axios.post("/api/upload", formData, {
         headers: {
@@ -60,49 +32,112 @@ export default function Home() {
         },
       });
 
-      setResults(response.data.data);
+      if (Object.keys(response.data).includes("error")) {
+        handleError("Error: " + response.data.error);
+      }
 
-      // console.log(response.data.data);
+      setResults(response.data.data);
     } catch (error) {
       console.log("unable to read file");
     }
   };
 
-  const handleFileSelected = (event) => {
-    console.log(event.target.files);
-    setFiles(event.target.files);
+  const handleDragAndDropFile = (event) => {
     // console.log(event);
+    setFiles(event);
+    setResults([]);
   };
 
-  const handleDragAndDropFile = (event) => {
-    console.log(event);
-    setFiles(event);
+  const handleReset = () => {
+    setFiles([]);
+    setResults([]);
+    setErrorText("");
+  };
+
+  const handleError = (errorText) => {
+    clearTimeout(timeoutId);
+    setErrorText(errorText);
+    const timeout = setTimeout(() => {
+      setErrorText("");
+    }, 3000);
+    setTimeoutId(timeout);
+  };
+
+  const handleTypeError = () => {
+    // event.preventDefault();
+    handleError('File type is not supported. Please only upload ".txt" files.');
   };
 
   return (
-    <Box>
-      <div>Hello world</div>
-      <form onSubmit={(event) => handleFileUpload(event)}>
-        <FileUploader
-          name="file"
-          types={fileTypes}
-          handleChange={handleDragAndDropFile}
-          multiple
-        />
-        <InputFileUpload onChange={handleFileSelected} />
+    <Container>
+      <Box className={"upload-box"}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <h1>Upload a log file (.txt)</h1>
+          <Tooltip title="Help">
+            <InfoIcon />
+          </Tooltip>
+        </Box>
+        <Box className={"upload-box-inner"}>
+          <form onSubmit={(event) => handleFileUpload(event)}>
+            <FileUploader
+              name="file"
+              types={fileTypes}
+              handleChange={handleDragAndDropFile}
+              onTypeError={handleTypeError}
+              multiple
+            >
+              <div style={{ height: "200px" }}>
+                Drag and drop your file(s) here:
+                <Box
+                  sx={{
+                    marginTop: "24px",
+                  }}
+                >
+                  <Box className={"error-text"}>{errorText}</Box>
 
-        <Button type="submit">Submit</Button>
-      </form>
-      {files.length > 0 &&
-        Array.from(files).map((file, index) => (
-          <div key={index}>{file.name}</div>
-        ))}
-      {results.length > 0 &&
-        results.map((result, index) => (
-          <div key={index}>
-            {result.user}: {result.count} words
-          </div>
-        ))}
-    </Box>
+                  {files.length > 0 &&
+                    Array.from(files).map((file, index) => (
+                      <div key={index}>
+                        {index + 1}. {file.name}
+                      </div>
+                    ))}
+                </Box>
+              </div>
+            </FileUploader>
+
+            <Box sx={{ display: "flex", gap: "16px" }}>
+              <StyledButton
+                type="submit"
+                disabled={files.length < 1}
+                className={"submit"}
+              >
+                Upload
+              </StyledButton>
+              <StyledButton
+                type="button"
+                disabled={files.length < 1}
+                onClick={handleReset}
+                className={"reset"}
+              >
+                Reset
+              </StyledButton>
+            </Box>
+          </form>
+        </Box>
+      </Box>
+      <Box className={"results-box"}>
+        <h1>Results:</h1>
+        <Box
+          className={`results-box-inner ${results.length > 0 ? "success" : ""}`}
+        >
+          {results.length > 0 &&
+            results.map((result, index) => (
+              <div key={index}>
+                {index + 1}. {result.user} - {result.count} words
+              </div>
+            ))}
+        </Box>
+      </Box>
+    </Container>
   );
 }

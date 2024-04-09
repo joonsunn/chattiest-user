@@ -1,13 +1,6 @@
 import { chattyCounter } from "./chattyCounter";
 
 export async function GET() {
-  // const res = await fetch('https://data.mongodb-api.com/...', {
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'API-Key': process.env.DATA_API_KEY,
-  //   },
-  // })
-  // const data = await res.json()
   const data = { message: "you have reached /upload route" };
 
   return Response.json({ data });
@@ -16,14 +9,23 @@ export async function GET() {
 export async function POST(request) {
   try {
     const formData = await request.formData();
-    const file = formData.get("file");
+    const formDataArray = Array.from(formData.values());
+    // console.log(formDataArray);
 
-    const buffer = Buffer.from(await file.arrayBuffer()).toString("utf-8");
-    console.log(buffer);
+    let buffers = "";
 
-    const results = chattyCounter(buffer);
+    for (let i = 0; i < formDataArray.length; ++i) {
+      const buffer = Buffer.from(await formDataArray[i].arrayBuffer()).toString(
+        "utf-8"
+      );
+      buffers += buffer;
+    }
+
+    const results = chattyCounter(buffers);
+
     return Response.json({ data: results });
   } catch (error) {
     console.log(error);
+    return Response.json({ error: "unable to read file(s)" });
   }
 }
