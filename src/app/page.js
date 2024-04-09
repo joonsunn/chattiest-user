@@ -1,14 +1,20 @@
 "use client";
 
-import Image from "next/image";
-import { Box, Button, Card, Input, Tooltip } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import {
+  Box,
+  Button,
+  Card,
+  Dialog,
+  DialogContent,
+  Input,
+  Tooltip,
+} from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import { FileUploader } from "react-drag-drop-files";
 import { useState } from "react";
 import axios from "axios";
 import { InputFileUpload, Container, StyledButton } from "./styles";
+import DialogInfo from "components/DialogInfo";
 
 export default function Home() {
   const [files, setFiles] = useState([]);
@@ -64,18 +70,23 @@ export default function Home() {
   };
 
   const handleTypeError = () => {
-    // event.preventDefault();
     handleError('File type is not supported. Please only upload ".txt" files.');
   };
 
   return (
     <Container>
       <Box className={"upload-box"}>
-        <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <Box className={"title-box"}>
           <h1>Upload a log file (.txt)</h1>
-          <Tooltip title="Help">
-            <InfoIcon />
-          </Tooltip>
+          <DialogInfo />
+          {/* <Tooltip title="Help">
+            <Box onClick={() => console.log("tooltip clicked")}>
+              <InfoIcon />
+              <Dialog open>
+                <DialogContent>text text text</DialogContent>
+              </Dialog>
+            </Box>
+          </Tooltip> */}
         </Box>
         <Box className={"upload-box-inner"}>
           <form onSubmit={(event) => handleFileUpload(event)}>

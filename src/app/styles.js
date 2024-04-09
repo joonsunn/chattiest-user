@@ -46,8 +46,7 @@ export const Container = styled(Box)({
   width: "100%",
   maxWidth: "1024px",
   margin: "auto",
-  //   paddingRight: "2rem",
-  //   paddingLeft: "2rem",
+  "& .title-box": { display: "flex", alignItems: "center", gap: "8px" },
   "& .upload-box-inner": {
     minHeight: "300px",
     border: "2px dotted black",
