@@ -22,7 +22,7 @@ _Pre-requisite: ensure `docker` and `docker compose` are installed._
 ## Usage
 
 - Step 1: Select text files by drag and drop (or click at drag and drop area to call the file selection menu).
-- Step 2: Click `Upload`button.
+- Step 2: Click `Upload` button.
 - Step 3: Specify top # of chattiest users to display.
 
 ## Additional information
