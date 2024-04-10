@@ -7,7 +7,7 @@ Welcome to the Chattiest User project. This mini app is used to compute the chat
 1. Clone the repository.
 2. Install the necessary dependencies by running `npm install` in the root directory.
 3. Start the application by running `npm run dev`.
-4. Navigate browser to `http://localhost:3000`
+4. Navigate browser to `http://localhost:3000`.
 5. To stop the application, enter `ctrl + c` in the terminal.
 
 ## Running using Docker
