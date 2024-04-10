@@ -2,17 +2,27 @@
 
 Welcome to the Chattiest User project. This mini app is used to compute the chattiest user in the room based on number of words said. The project is deployed live at [https://chattiest-user.vercel.app](https://chattiest-user.vercel.app).
 
-## Installation
+## Running locally
 
 1. Clone the repository.
-2. Install the necessary dependencies by running `npm install`.
+2. Install the necessary dependencies by running `npm install` in the root directory.
 3. Start the application by running `npm run dev`.
-4. Navigate to `http://localhost:3000`
+4. Navigate browser to `http://localhost:3000`
+5. To stop the application, enter `ctrl + c` in the terminal.
+
+## Running using Docker
+
+_Pre-requisite: ensure `docker` and `docker compose` are installed.`_
+
+1. Clone the repository.
+2. Run `docker compose up` to start the application.
+3. Navigate browser to `http://localhost:3000`.
+4. Run `docker compose down` to stop the application and remove the container.
 
 ## Usage
 
-- Step 1: Select text files.
-- Step 2: Upload files.
+- Step 1: Select text files by drag and drop (or click at drag and drop area to call the file selection menu).
+- Step 2: Click `Upload`button.
 - Step 3: Specify top # of chattiest users to display.
 
 ## Additional information
@@ -33,3 +43,5 @@ For example, the test for the `chattyCounter` function is colocated in the `/api
 - Framework: [Next.js](https://nextjs.org/)
 - Components library: [Material UI](https://mui.com/)
 - Testing framework: [Jest](https://jestjs.io/)
+- Containerization: [Docker](https://www.docker.com/)
+- Deployment: [Vercel](https://vercel.com/)
