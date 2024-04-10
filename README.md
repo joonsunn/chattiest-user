@@ -12,7 +12,7 @@ Welcome to the Chattiest User project. This mini app is used to compute the chat
 
 ## Running using Docker
 
-_Pre-requisite: ensure `docker` and `docker compose` are installed.`_
+_Pre-requisite: ensure `docker` and `docker compose` are installed._
 
 1. Clone the repository.
 2. Run `docker compose up` to start the application.
