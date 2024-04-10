@@ -1,6 +1,6 @@
 # Chattiest User Project
 
-Welcome to the Chattiest User project. This mini app is used to compute the chattiest user in the room based on number of words said. The project is deployed live at [https://chattiest-user.vercel.app](https://chattiest-user.vercel.app).
+Welcome to the Chattiest User project. This mini app is used to compute the chattiest user in the room based on number of words said. The project is deployed live at [https://chattiest-user.joonsunn.com](https://chattiest-user.joonsunn.com).
 
 ## Running locally
 
@@ -22,8 +22,8 @@ _Pre-requisite: ensure `docker` and `docker compose` are installed._
 ## Usage
 
 - Step 1: Select text files by drag and drop (or click at drag and drop area to call the file selection menu).
-- Step 2: Click `Upload` button.
-- Step 3: Specify top # of chattiest users to display.
+- Step 2: Click `Upload` button. Results will be displayed in the results box within a shortwhile.
+- Step 3 (Optional): Specify top # of chattiest users to display. The filtered results will displayed accordingly. Blank value or 0 will display all results.
 
 ## Additional information
 

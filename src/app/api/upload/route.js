@@ -1,11 +1,5 @@
 import { chattyCounter } from "./chattyCounter";
 
-export async function GET() {
-  const data = { message: "you have reached /upload route" };
-
-  return Response.json({ data });
-}
-
 export async function POST(request) {
   try {
     const formData = await request.formData();
