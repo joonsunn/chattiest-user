@@ -61,4 +61,66 @@ describe("first test", () => {
       count: 11,
     });
   });
+  it("test string in chunks - user1", () => {
+    const testString = `<user1> this is some chat words
+    <user1> more chat from me!
+    <user1> more chat from me!
+    This line is still attributed!`;
+    const results = chattyCounter(testString);
+    expect(results[0]).toStrictEqual({
+      user: "user1",
+      count: 18,
+    });
+  });
+  it("test string in chunks - user2", () => {
+    const testString = `
+  <user2> the sky is blue
+  This line is still attributed
+  This line is still attributed!
+  <user2> the sky is blue
+  This line is still attributed`;
+    const results = chattyCounter(testString);
+    expect(results[0]).toStrictEqual({
+      user: "user2",
+      count: 23,
+    });
+  });
+  it("test string in chunks - user3", () => {
+    const testString = `
+    <user3> this is some chat words 1
+    <user3> this is some chat words 2
+    <user3> this is some chat words 3`;
+    const results = chattyCounter(testString);
+    expect(results[0]).toStrictEqual({
+      user: "user3",
+      count: 18,
+    });
+  });
+  it("total test", () => {
+    const testString = `<user1> this is some chat words
+    <user2> the sky is blue
+    This line is still attributed
+    This line is still attributed!
+    <user1> more chat from me!
+    <user3> this is some chat words 1
+    <user3> this is some chat words 2
+    <user3> this is some chat words 3
+    <user2> the sky is blue
+    This line is still attributed
+    <user1> more chat from me!
+    This line is still attributed!`;
+    const results = chattyCounter(testString);
+    expect(results[0]).toStrictEqual({
+      user: "user2",
+      count: 23,
+    });
+    expect(results[1]).toStrictEqual({
+      user: "user3",
+      count: 18,
+    });
+    expect(results[2]).toStrictEqual({
+      user: "user1",
+      count: 18,
+    });
+  });
 });

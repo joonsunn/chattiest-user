@@ -7,9 +7,7 @@ export const chattyCounter = (string) => {
 
   for (const match of foundMatch) {
     const user = match.groups.user;
-    const messageUnfiltered = match.groups.message
-      .replace("\n", " ")
-      .split(" ");
+    const messageUnfiltered = match.groups.message.split(/[\s\n]/gim);
     const message = messageUnfiltered.filter((item) => item !== "");
     const userToAdd = results.find((item) => item.user === user);
     if (userToAdd) {
