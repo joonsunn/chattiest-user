@@ -25,7 +25,7 @@ Welcome to the Chattiest User project. This mini app is used to compute the chat
 
 To run the tests, run `npm run test`.  
 Test files are colocated in the respective folders where the function or component is being tested resides in.  
-For example, the test for the `chattyCounter` function is colocated in the /api/upload folder; whereas the test for the main landing `Page` component resides in the root of `src/app/` folder.
+For example, the test for the `chattyCounter` function is colocated in the `/api/upload` folder; whereas the test for the main landing `Page` component resides in the root of `src/app/` folder.
 
 ## Technology used
 
