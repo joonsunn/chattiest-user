@@ -1,5 +1,5 @@
 export const chattyCounter = (string) => {
-  const regex = /<(?<user>\w+)>\s(?<message>[\w\s\d!.?:'"{}\[\]]+)/gm;
+  const regex = /^<(?<user>\w+)>\s(?<message>[\w\s\d!.?:'"{}\[\]]+)$/gm;
 
   const foundMatch = string.matchAll(regex);
 
@@ -7,10 +7,7 @@ export const chattyCounter = (string) => {
 
   for (const match of foundMatch) {
     const user = match.groups.user;
-    const messageUnfiltered = match.groups.message
-      .replace("\n", " ")
-      .split(" ");
-    const message = messageUnfiltered.filter((item) => item !== "");
+    const message = match.groups.message.replace("\n", " ").split(" ");
     const userToAdd = results.find((item) => item.user === user);
     if (userToAdd) {
       userToAdd.count += message.length;
@@ -26,7 +23,7 @@ export const chattyCounter = (string) => {
   return results;
 };
 
-// const string = `<user1> hello world
-// <user2> hello world lol`;
+const string = `<user1> hello world
+<user2> hello world lol`;
 
-// console.log(chattyCounter(string));
+console.log(chattyCounter(string));
