@@ -23,8 +23,3 @@ export const chattyCounter = (string) => {
 
   return results;
 };
-
-// const string = `<user1> hello world
-// <user2> hello world lol`;
-
-// console.log(chattyCounter(string));
