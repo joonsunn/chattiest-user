@@ -18,6 +18,8 @@ import {
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import { useState } from "react";
+import { StyledButton } from "app/styles";
+import { saveAs } from "file-saver";
 
 const emails = ["username@gmail.com", "user02@gmail.com"];
 function SimpleDialog(props) {
@@ -42,6 +44,11 @@ Please play along!`;
   const text2 =
     "< > surrounds a username. Words followed by it until the next username will be attributed to that user.";
 
+  const handleDownload = () => {
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    saveAs(blob, "chatlog.txt");
+  };
+
   return (
     <Dialog
       onClose={handleClose}
@@ -55,6 +62,16 @@ Please play along!`;
         <Box sx={{ whiteSpace: "pre" }}>{text}</Box>
         <span>{text2}</span>
       </DialogContent>
+      <DialogActions>
+        <StyledButton
+          onClick={handleDownload}
+          sx={{ width: "fit-content" }}
+        >
+          Download example chat log file
+        </StyledButton>
+
+        <StyledButton onClick={handleClose}>Close</StyledButton>
+      </DialogActions>
     </Dialog>
   );
 }

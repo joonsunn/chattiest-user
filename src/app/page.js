@@ -120,31 +120,32 @@ export default function Home() {
                 </Box>
               </div>
             </FileUploader>
-
-            <Box sx={{ display: "flex", gap: "16px" }}>
-              <StyledButton
-                type="submit"
-                disabled={files.length < 1}
-                className={"submit"}
-              >
-                Upload
-              </StyledButton>
-              <StyledButton
-                type="button"
-                disabled={files.length < 1}
-                onClick={handleReset}
-                className={"reset"}
-              >
-                Reset
-              </StyledButton>
-              <TextInputDebounced
-                label={"Top # chattiest"}
-                setText={setTopChattiest}
-                type="number"
-                disabled={files.length < 1}
-              />
-            </Box>
           </form>
+        </Box>
+
+        <Box sx={{ display: "flex", gap: "16px" }}>
+          <StyledButton
+            type="submit"
+            disabled={files.length < 1}
+            className={"submit"}
+            onClick={handleFileUpload}
+          >
+            Upload
+          </StyledButton>
+          <StyledButton
+            type="button"
+            disabled={files.length < 1}
+            onClick={handleReset}
+            className={"reset"}
+          >
+            Reset
+          </StyledButton>
+          <TextInputDebounced
+            label={"Top # chattiest"}
+            setText={setTopChattiest}
+            type="number"
+            disabled={files.length < 1}
+          />
         </Box>
       </Box>
       <Box className={"results-box"}>

@@ -37,8 +37,8 @@ export function InputFileUpload({ onChange }) {
 export const Container = styled(Box)({
   //   display: "flex",
   display: "grid",
-  gap: "1rem",
-  gridTemplateColumns: "1fr 1fr",
+  gap: "10rem",
+  gridTemplateColumns: "1fr 0.75fr",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
@@ -47,8 +47,15 @@ export const Container = styled(Box)({
   maxWidth: "1024px",
   margin: "auto",
   "& .title-box": { display: "flex", alignItems: "center", gap: "8px" },
-  "& .upload-box-inner": {
+  minHeight: "300px",
+  "& .upload-box": {
     minHeight: "300px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+  },
+  "& .upload-box-inner": {
+    // minHeight: "300px",
     border: "2px dotted black",
     width: "100%",
     padding: "1rem",
