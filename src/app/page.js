@@ -15,8 +15,8 @@ import { FileUploader } from "react-drag-drop-files";
 import { useState } from "react";
 import axios from "axios";
 import { InputFileUpload, Container, StyledButton } from "./styles";
-import DialogInfo from "components/DialogInfo";
-import TextInputDebounced from "components/TextInputDebounced";
+import DialogInfo from "../components/DialogInfo";
+import TextInputDebounced from "../components/TextInputDebounced";
 
 export default function Home() {
   const [files, setFiles] = useState([]);
@@ -90,7 +90,7 @@ export default function Home() {
     <Container>
       <Box className={"upload-box"}>
         <Box className={"title-box"}>
-          <h1>Upload a log file (.txt)</h1>
+          <h1 className="upload">Upload a log file (.txt)</h1>
           <DialogInfo />
         </Box>
         <Box className={"upload-box-inner"}>

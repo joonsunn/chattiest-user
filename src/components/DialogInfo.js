@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import { useState } from "react";
-import { StyledButton } from "app/styles";
+import { StyledButton } from "../app/styles";
 import { saveAs } from "file-saver";
 
 const emails = ["username@gmail.com", "user02@gmail.com"];
