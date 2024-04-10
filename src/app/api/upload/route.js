@@ -4,7 +4,6 @@ export async function POST(request) {
   try {
     const formData = await request.formData();
     const formDataArray = Array.from(formData.values());
-    // console.log(formDataArray);
 
     let buffers = "";
 
