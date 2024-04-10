@@ -1,6 +1,6 @@
 # Chattiest User Project
 
-Welcome to the Chattiest User project. This mini app is used to compute the chattiest user in the room based on number of words said.
+Welcome to the Chattiest User project. This mini app is used to compute the chattiest user in the room based on number of words said. The project is deployed live at [https://chattiest-user.vercel.app](https://chattiest-user.vercel.app).
 
 ## Installation
 
