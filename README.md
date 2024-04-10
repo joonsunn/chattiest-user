@@ -10,7 +10,7 @@ Welcome to the Chattiest User project. This mini app is used to compute the chat
 4. Navigate browser to `http://localhost:3000`.
 5. To stop the application, enter `ctrl + c` in the terminal.
 
-## Running using Docker
+## Running as Docker container
 
 _Pre-requisite: ensure `docker` and `docker compose` are installed._
 
