@@ -35,20 +35,23 @@ export const Container = styled(Box)(({ theme }) => ({
   },
   "& .upload-box-inner": {
     // minHeight: "300px",
-    borderRadius: "25px",
-
-    border: "2px dotted black",
-    boxShadow: "0px 5px 25px 5px black",
-    width: "100%",
     padding: "1rem",
+    borderRadius: "25px",
+    background: theme.palette.background.paper,
+
+    // border: "2px dotted black",
+    boxShadow: "0px 5px 30px 5px black",
+    width: "100%",
   },
   "& .results-box": {},
   "& .results-box-inner": {
-    padding: "0.5rem",
-    border: "1px solid black",
+    padding: "1rem",
+    // border: "1px solid black",
     borderRadius: "25px",
-    boxShadow: "0px 5px 25px 5px black",
+    boxShadow: "0px 5px 30px 5px black",
+
     overflow: "scroll",
+    background: theme.palette.background.paper,
     "&::-webkit-scrollbar": {
       display: "none",
     },
