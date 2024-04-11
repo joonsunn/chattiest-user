@@ -9,11 +9,12 @@ export default function FreeSoloAutoComplete({ options, ...props }) {
       freeSolo
       id="freesolo-autocomplete"
       disableClearable
-      options={options.map((option) => option.toString())}
+      options={options.map((option) => option)}
+      getOptionLabel={(option) => option.toString()}
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Top # chattiest users"
+          label={props.label}
           InputProps={{
             ...params.InputProps,
             type: "search",
@@ -27,5 +28,3 @@ export default function FreeSoloAutoComplete({ options, ...props }) {
     />
   );
 }
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top

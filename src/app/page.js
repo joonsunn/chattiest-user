@@ -1,6 +1,13 @@
 "use client";
 
-import { Box } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 import { FileUploader } from "react-drag-drop-files";
 import { useState } from "react";
 import axios from "axios";
@@ -15,6 +22,7 @@ export default function Home() {
   const [timeoutId, setTimeoutId] = useState(null);
   const [topChattiest, setTopChattiest] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [sortBy, setSortBy] = useState("word count");
 
   const fileTypes = ["TXT"];
 
@@ -56,14 +64,16 @@ export default function Home() {
     setResults([]);
     setTopChattiest(0);
     setErrorText("");
+    setSortBy("word count");
   };
 
   const handleError = (errorText) => {
     clearTimeout(timeoutId);
+    handleReset();
     setErrorText(errorText);
     const timeout = setTimeout(() => {
       setErrorText("");
-    }, 0);
+    }, 1000);
     setTimeoutId(timeout);
   };
 
@@ -142,12 +152,47 @@ export default function Home() {
             options={[1, 2, 3, 4, 5]}
             disabled={files.length < 1}
             type="number"
-            onInputChange={(_, value) => handleTextInput(value)}
+            value={topChattiest}
+            onInputChange={(_, value) => handleTextInput(Number(value))}
+            label="Top # chattiest users"
           />
         </Box>
       </Box>
       <Box className={"results-box"}>
         <h1>Results:</h1>
+        <FormControl
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "4px",
+            alignItems: "center",
+          }}
+        >
+          <FormLabel
+            id="demo-radio-buttons-group-label"
+            sx={{ color: "black", "&.Mui-focused": { color: "black" } }}
+          >
+            Sort by:
+          </FormLabel>
+          <RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            defaultValue="word count"
+            name="radio-buttons-group"
+            sx={{ display: "flex", flexDirection: "row" }}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <FormControlLabel
+              value="word count"
+              control={<Radio />}
+              label="word count"
+            />
+            <FormControlLabel
+              value="user name"
+              control={<Radio />}
+              label="user name"
+            />
+          </RadioGroup>
+        </FormControl>
         <Box
           className={`results-box-inner ${results.length > 0 ? "success" : ""}`}
         >
@@ -163,6 +208,13 @@ export default function Home() {
                       ? results.length
                       : topChattiest
                   )
+                  .sort((a, b) => {
+                    if (sortBy === "word count") {
+                      return b.count - a.count;
+                    } else {
+                      return a.user.localeCompare(b.user);
+                    }
+                  })
                   .map((result, index) => (
                     <div key={index}>
                       {index + 1}. {result.user} - {result.count} words

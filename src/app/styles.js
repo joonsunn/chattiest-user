@@ -1,38 +1,5 @@
-import { Box, Button, Card, Input } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
-
-export function InputFileUpload({ onChange }) {
-  return (
-    <Button
-      component="label"
-      role={undefined}
-      variant="contained"
-      tabIndex={-1}
-      startIcon={<CloudUploadIcon />}
-    >
-      Upload file
-      <VisuallyHiddenInput
-        type="file"
-        accept="text/plain"
-        onChange={onChange}
-        multiple
-      />
-    </Button>
-  );
-}
 
 export const Container = styled(Box)({
   display: "grid",
@@ -61,7 +28,7 @@ export const Container = styled(Box)({
     padding: "1rem",
     border: "1px solid black",
     width: "100%",
-    height: "300px",
+    height: "280px",
     overflow: "auto",
     scrollPadding: 0,
     "&.success": {
