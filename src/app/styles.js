@@ -54,7 +54,7 @@ export const Container = styled(Box)(({ theme }) => ({
     },
 
     width: "100%",
-    height: "280px",
+    height: "350px",
     // overflow: "auto",
     scrollPadding: 0,
     "&.success": {
