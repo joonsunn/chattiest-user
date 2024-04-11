@@ -35,13 +35,10 @@ export function InputFileUpload({ onChange }) {
 }
 
 export const Container = styled(Box)({
-  //   display: "flex",
   display: "grid",
-  gap: "10rem",
-  gridTemplateColumns: "1fr 0.75fr",
-  flexDirection: "column",
+  gap: "5rem",
+  gridTemplateColumns: "1fr 0.5fr",
   alignItems: "center",
-  justifyContent: "center",
   height: "100%",
   width: "100%",
   maxWidth: "1024px",
@@ -64,7 +61,9 @@ export const Container = styled(Box)({
     padding: "1rem",
     border: "1px solid black",
     width: "100%",
-    minHeight: "300px",
+    height: "300px",
+    overflow: "auto",
+    scrollPadding: 0,
     "&.success": {
       border: "2px solid orange",
     },

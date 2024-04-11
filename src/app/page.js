@@ -1,22 +1,12 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  Card,
-  Dialog,
-  DialogContent,
-  Input,
-  TextField,
-  Tooltip,
-} from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
+import { Box } from "@mui/material";
 import { FileUploader } from "react-drag-drop-files";
 import { useState } from "react";
 import axios from "axios";
-import { InputFileUpload, Container, StyledButton } from "./styles";
+import { Container, StyledButton } from "./styles";
 import DialogInfo from "../components/DialogInfo";
-import TextInputDebounced from "../components/TextInputDebounced";
+import FreeSoloAutoComplete from "components/FreeSoloAutoComplete";
 
 export default function Home() {
   const [files, setFiles] = useState([]);
@@ -24,6 +14,7 @@ export default function Home() {
   const [errorText, setErrorText] = useState("");
   const [timeoutId, setTimeoutId] = useState(null);
   const [topChattiest, setTopChattiest] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fileTypes = ["TXT"];
 
@@ -35,6 +26,7 @@ export default function Home() {
       formData.append(file[i].name, file[i]);
     }
     try {
+      setIsLoading(true);
       const response = await axios.post("/api/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -44,15 +36,17 @@ export default function Home() {
       if (Object.keys(response.data).includes("error")) {
         handleError("Error: " + response.data.error);
       }
-
-      setResults(response.data.data);
+      setTimeout(() => {
+        setIsLoading(false);
+        setResults(response.data.data);
+      }, 1000);
     } catch (error) {
       console.log("unable to read file");
+      setIsLoading(false);
     }
   };
 
   const handleDragAndDropFile = (event) => {
-    // console.log(event);
     setFiles(event);
     setResults([]);
   };
@@ -69,7 +63,7 @@ export default function Home() {
     setErrorText(errorText);
     const timeout = setTimeout(() => {
       setErrorText("");
-    }, 3000);
+    }, 0);
     setTimeoutId(timeout);
   };
 
@@ -80,9 +74,8 @@ export default function Home() {
   const handleTextInput = (event) => {
     clearTimeout(timeoutId);
     const timeout = setTimeout(() => {
-      setTopChattiest(event.target.value);
-      console.log(event.target.value);
-    }, 500);
+      setTopChattiest(event);
+    }, 200);
     setTimeoutId(timeout);
   };
 
@@ -123,7 +116,12 @@ export default function Home() {
           </form>
         </Box>
 
-        <Box sx={{ display: "flex", gap: "16px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: "16px",
+          }}
+        >
           <StyledButton
             type="submit"
             disabled={files.length < 1}
@@ -140,11 +138,11 @@ export default function Home() {
           >
             Reset
           </StyledButton>
-          <TextInputDebounced
-            label={"Top # chattiest"}
-            setText={setTopChattiest}
-            type="number"
+          <FreeSoloAutoComplete
+            options={[1, 2, 3, 4, 5]}
             disabled={files.length < 1}
+            type="number"
+            onInputChange={(_, value) => handleTextInput(value)}
           />
         </Box>
       </Box>
@@ -153,19 +151,25 @@ export default function Home() {
         <Box
           className={`results-box-inner ${results.length > 0 ? "success" : ""}`}
         >
-          {results.length > 0 &&
-            results
-              .slice(
-                0,
-                !topChattiest || topChattiest === 0
-                  ? results.length
-                  : topChattiest
-              )
-              .map((result, index) => (
-                <div key={index}>
-                  {index + 1}. {result.user} - {result.count} words
-                </div>
-              ))}
+          {isLoading ? (
+            <span>Loading results...</span>
+          ) : (
+            <Box className="results-box-innermost">
+              {results.length > 0 &&
+                results
+                  .slice(
+                    0,
+                    !topChattiest || topChattiest === 0
+                      ? results.length
+                      : topChattiest
+                  )
+                  .map((result, index) => (
+                    <div key={index}>
+                      {index + 1}. {result.user} - {result.count} words
+                    </div>
+                  ))}
+            </Box>
+          )}
         </Box>
       </Box>
     </Container>
