@@ -1,21 +1,34 @@
 export const chattyCounter = (string) => {
-  const regex = /<(?<user>\w+)>\s(?<message>[\w\s\d!.?:'"{}\[\]]+)/gm;
+  const userRegex = /^<(?<user>[\w\d]+)>\s?/gm;
 
-  const foundMatch = string.matchAll(regex);
-
+  const testStringArray = string.trim().split(/\n/);
+  let currentUser;
   let results = [];
 
-  for (const match of foundMatch) {
-    const user = match.groups.user;
-    const messageUnfiltered = match.groups.message.split(/[\s\n]/gim);
-    const message = messageUnfiltered.filter((item) => item !== "");
-    const userToAdd = results.find((item) => item.user === user);
-    if (userToAdd) {
-      userToAdd.count += message.length;
-      results = results.filter((item) => item.user !== user);
-      results.push(userToAdd);
-    } else {
-      results.push({ user, count: message.length });
+  for (let i = 0; i < testStringArray.length; ++i) {
+    const line = testStringArray[i].split(" ");
+    let userDetected = Array.from(testStringArray[i].matchAll(userRegex));
+    if (userDetected.length > 0) {
+      userDetected = userDetected[0].groups.user;
+      currentUser = userDetected;
+      const userToIncrement = results.find(
+        (user) => user.user === userDetected
+      );
+      if (userToIncrement) {
+        userToIncrement.count += line.length - 1;
+        results = results.map((user) =>
+          user.user === userDetected ? userToIncrement : user
+        );
+      } else {
+        const userToIncrement = { user: userDetected, count: line.length - 1 };
+        results.push(userToIncrement);
+      }
+    } else if (currentUser) {
+      const userToIncrement = results.find((user) => user.user === currentUser);
+      userToIncrement.count += line.length;
+      results = results.map((user) =>
+        user.user === userDetected ? userToIncrement : user
+      );
     }
   }
 

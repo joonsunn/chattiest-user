@@ -8,12 +8,14 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { FileUploader } from "react-drag-drop-files";
 import { useState } from "react";
 import axios from "axios";
-import { Container, StyledButton } from "./styles";
+import { Container, StyledBox, StyledButton } from "./styles";
 import DialogInfo from "../components/DialogInfo";
 import FreeSoloAutoComplete from "../components/FreeSoloAutoComplete";
+import MyThemeProvider from "../theme/theme";
 
 export default function Home() {
   const [files, setFiles] = useState([]);
@@ -23,6 +25,7 @@ export default function Home() {
   const [topChattiest, setTopChattiest] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [sortBy, setSortBy] = useState("word count");
+  const theme = useTheme();
 
   const fileTypes = ["TXT"];
 
@@ -90,140 +93,155 @@ export default function Home() {
   };
 
   return (
-    <Container>
-      <Box className={"upload-box"}>
-        <Box className={"title-box"}>
-          <h1 className="upload">Upload a log file (.txt)</h1>
-          <DialogInfo />
-        </Box>
-        <Box className={"upload-box-inner"}>
-          <form onSubmit={(event) => handleFileUpload(event)}>
-            <FileUploader
-              name="file"
-              types={fileTypes}
-              handleChange={handleDragAndDropFile}
-              onTypeError={handleTypeError}
-              multiple
-            >
-              <div style={{ height: "200px" }}>
-                Drag and drop your file(s) here:
-                <Box
-                  sx={{
-                    marginTop: "24px",
-                  }}
-                >
-                  <Box className={"error-text"}>{errorText}</Box>
-
-                  {files.length > 0 &&
-                    Array.from(files).map((file, index) => (
-                      <div key={index}>
-                        {index + 1}. {file.name}
-                      </div>
-                    ))}
-                </Box>
-              </div>
-            </FileUploader>
-          </form>
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            gap: "16px",
-          }}
-        >
-          <StyledButton
-            type="submit"
-            disabled={files.length < 1}
-            className={"submit"}
-            onClick={handleFileUpload}
-          >
-            Upload
-          </StyledButton>
-          <StyledButton
-            type="button"
-            disabled={files.length < 1}
-            onClick={handleReset}
-            className={"reset"}
-          >
-            Reset
-          </StyledButton>
-          <FreeSoloAutoComplete
-            options={[1, 2, 3, 4, 5]}
-            disabled={files.length < 1}
-            type="number"
-            value={topChattiest}
-            onInputChange={(_, value) => handleTextInput(Number(value))}
-            label="Top # chattiest users"
-          />
-        </Box>
-      </Box>
-      <Box className={"results-box"}>
-        <h1>Results:</h1>
-        <FormControl
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            gap: "4px",
-            alignItems: "center",
-          }}
-        >
-          <FormLabel
-            id="demo-radio-buttons-group-label"
-            sx={{ color: "black", "&.Mui-focused": { color: "black" } }}
-          >
-            Sort by:
-          </FormLabel>
-          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue="word count"
-            name="radio-buttons-group"
-            sx={{ display: "flex", flexDirection: "row" }}
-            onChange={(e) => setSortBy(e.target.value)}
-          >
-            <FormControlLabel
-              value="word count"
-              control={<Radio />}
-              label="word count"
-            />
-            <FormControlLabel
-              value="user name"
-              control={<Radio />}
-              label="user name"
-            />
-          </RadioGroup>
-        </FormControl>
-        <Box
-          className={`results-box-inner ${results.length > 0 ? "success" : ""}`}
-        >
-          {isLoading ? (
-            <span>Loading results...</span>
-          ) : (
-            <Box className="results-box-innermost">
-              {results.length > 0 &&
-                results
-                  .slice(
-                    0,
-                    !topChattiest || topChattiest === 0
-                      ? results.length
-                      : topChattiest
-                  )
-                  .sort((a, b) => {
-                    if (sortBy === "word count") {
-                      return b.count - a.count;
-                    } else {
-                      return a.user.localeCompare(b.user);
-                    }
-                  })
-                  .map((result, index) => (
-                    <div key={index}>
-                      {index + 1}. {result.user} - {result.count} words
-                    </div>
-                  ))}
+    <MyThemeProvider>
+      <StyledBox>
+        <h2>Chattiest User</h2>
+        <Container>
+          <Box className={"upload-box"}>
+            <Box className={"title-box"}>
+              <h1 className="upload">Upload a log file (.txt)</h1>
+              <DialogInfo />
             </Box>
-          )}
-        </Box>
-      </Box>
-    </Container>
+            <Box className={"upload-box-inner"}>
+              <form onSubmit={(event) => handleFileUpload(event)}>
+                <FileUploader
+                  name="file"
+                  types={fileTypes}
+                  handleChange={handleDragAndDropFile}
+                  onTypeError={handleTypeError}
+                  multiple
+                >
+                  <div style={{ height: "200px" }}>
+                    Drag and drop your file(s) here:
+                    <Box
+                      sx={{
+                        marginTop: "24px",
+                      }}
+                    >
+                      <Box className={"error-text"}>{errorText}</Box>
+
+                      {files.length > 0 &&
+                        Array.from(files).map((file, index) => (
+                          <div key={index}>
+                            {index + 1}. {file.name}
+                          </div>
+                        ))}
+                    </Box>
+                  </div>
+                </FileUploader>
+              </form>
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                gap: "16px",
+              }}
+            >
+              <StyledButton
+                type="submit"
+                disabled={files.length < 1}
+                className={"submit"}
+                onClick={handleFileUpload}
+              >
+                Upload
+              </StyledButton>
+              <StyledButton
+                type="button"
+                disabled={files.length < 1}
+                onClick={handleReset}
+                className={"reset"}
+              >
+                Reset
+              </StyledButton>
+              <FreeSoloAutoComplete
+                options={[1, 2, 3, 4, 5]}
+                disabled={files.length < 1}
+                type="number"
+                value={topChattiest}
+                onInputChange={(_, value) => handleTextInput(Number(value))}
+                label="Top # chattiest users"
+              />
+            </Box>
+          </Box>
+          <Box className={"results-box"}>
+            <h1>Results:</h1>
+            <FormControl
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "4px",
+                alignItems: "center",
+              }}
+            >
+              <FormLabel
+                id="demo-radio-buttons-group-label"
+                sx={{
+                  color: theme.palette.secondary.main,
+                  "&.Mui-focused": { color: theme.palette.secondary.main },
+                }}
+              >
+                Sort by:
+              </FormLabel>
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="word count"
+                name="radio-buttons-group"
+                sx={{ display: "flex", flexDirection: "row" }}
+                onChange={(e) => setSortBy(e.target.value)}
+              >
+                <FormControlLabel
+                  value="word count"
+                  control={<Radio />}
+                  label="word count"
+                />
+                <FormControlLabel
+                  value="user name"
+                  control={<Radio />}
+                  label="user name"
+                />
+              </RadioGroup>
+            </FormControl>
+            <Box
+              className={`results-box-inner ${
+                results.length > 0 ? "success" : ""
+              }`}
+            >
+              {isLoading ? (
+                <span>Loading results...</span>
+              ) : (
+                <Box
+                  className="buffer-box"
+                  sx={{ padding: "1rem", marginRight: "25px" }}
+                >
+                  <Box className="results-box-innermost">
+                    {results.length > 0 &&
+                      results
+                        .slice(
+                          0,
+                          !topChattiest || topChattiest === 0
+                            ? results.length
+                            : topChattiest
+                        )
+                        .sort((a, b) => {
+                          if (sortBy === "word count") {
+                            return b.count - a.count;
+                          } else {
+                            return a.user.localeCompare(b.user);
+                          }
+                        })
+                        .map((result, index) => (
+                          <div key={index}>
+                            {index + 1}. {result.user} - {result.count} words
+                          </div>
+                        ))}
+                  </Box>
+                </Box>
+              )}
+            </Box>
+          </Box>
+        </Container>
+      </StyledBox>
+    </MyThemeProvider>
   );
 }
