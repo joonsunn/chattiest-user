@@ -13,7 +13,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Container, StyledButton } from "./styles";
 import DialogInfo from "../components/DialogInfo";
-import FreeSoloAutoComplete from "components/FreeSoloAutoComplete";
+import FreeSoloAutoComplete from "../components/FreeSoloAutoComplete";
 
 export default function Home() {
   const [files, setFiles] = useState([]);
