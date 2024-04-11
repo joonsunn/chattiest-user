@@ -19,7 +19,7 @@ export const chattyCounter = (string) => {
     }
   }
 
-  // results.sort((a, b) => b.count - a.count); // sort handled in frontend
+  results.sort((a, b) => b.count - a.count);
 
   return results;
 };
