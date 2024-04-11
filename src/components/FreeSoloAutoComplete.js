@@ -22,7 +22,7 @@ export default function FreeSoloAutoComplete({ options, ...props }) {
         />
       )}
       sx={{
-        width: "180px",
+        width: "200px",
       }}
       {...props}
     />

@@ -14,7 +14,7 @@ export default function Autocomplete(theme) {
           "& .MuiInputLabel-root": {
             // color: "red",
             background: theme.palette.background.default,
-            padding: "5px",
+            padding: "0 5px",
           },
         },
       },

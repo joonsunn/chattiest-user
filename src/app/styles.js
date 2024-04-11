@@ -11,9 +11,9 @@ export const StyledBox = styled(Box)(({ theme }) => ({
     fontSize: "3rem",
     textDecoration: "underline",
   },
-  "& .MuiAutocomplete-inputRoot": {
-    borderColor: "orange",
-  },
+  // "& .MuiAutocomplete-inputRoot": {
+  //   borderColor: "orange",
+  // },
 }));
 
 export const Container = styled(Box)(({ theme }) => ({
