@@ -13,5 +13,8 @@ up-prod-watch:
 test:
 	docker compose -f docker-compose.test.yml up --build
 
+test-it:
+	docker exec -it chattiest-user npm run test:watch
+
 it:
 	docker exec -it chattiest-user bash

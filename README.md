@@ -38,7 +38,7 @@ Refer to Makefile for other commands (e.g. dev mode, interactive terminal, etc).
 ## Tests
 
 To run the tests on a local build, run `npm run test` for one-off tests, `npm run test:watch` for watch mode.  
-To run one-off tests as a Docker instance, run 'make test'. For watch mode while development container already running, run `make it` in a separate terminal window, then run `npm run test:watch` in the shell.  
+To run one-off tests as a Docker instance, run 'make test'. For watch mode while development container already running, run `make test-it` in a separate terminal window.  
 Test files are stored in a `__test__` folder colocated in the respective folders where the function or component is being tested resides in.  
 For example, the test for the `chattyCounter` function is colocated in the `/api/upload` folder; whereas the test for the main landing `Page` component resides in the root of `src/app/` folder.
 
