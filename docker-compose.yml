@@ -1,13 +1,10 @@
 services:
   chattiest-user:
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
     build:
       context: .
-      dockerfile: dockerfile.dev
-    volumes:
-      - .:/usr/src/app
-      - ./.git:/usr/src/app/.git
+      dockerfile: dockerfile.prod
     container_name: chattiest-user
     ports:
       - "3000:3000"

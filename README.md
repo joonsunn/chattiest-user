@@ -15,7 +15,7 @@ Welcome to the Chattiest User project. This mini app is used to compute the chat
 _Pre-requisite: ensure `docker` and `docker compose` are installed._
 
 1. Clone the repository.
-2. Run `docker compose -f docker-compose.prod.yml up -d --build` to start the production build of the application.  
+2. Run `docker compose up -d --build` to start the production build of the application.  
    2a. Alternatively: on Linux/MacOS, run `make up-prod`.
 3. Navigate browser to `http://localhost:3000`.
 4. Run `docker compose down` to stop the application and remove the container.  
