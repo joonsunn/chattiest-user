@@ -15,9 +15,13 @@ Welcome to the Chattiest User project. This mini app is used to compute the chat
 _Pre-requisite: ensure `docker` and `docker compose` are installed._
 
 1. Clone the repository.
-2. Run `docker compose up` to start the application.
+2. Run `docker compose -f docker-compose.prod.yml up -d --build` to start the production build of the application.  
+   2a. Alternatively: on Linux/MacOS, run `make up-prod`.
 3. Navigate browser to `http://localhost:3000`.
-4. Run `docker compose down` to stop the application and remove the container.
+4. Run `docker compose down` to stop the application and remove the container.  
+   4a. Alternatively: on Linux/MacOS, run `make down`.
+
+Refer to Makefile for other commands (e.g. dev mode, interactive terminal, etc).
 
 ## Usage
 
@@ -33,7 +37,8 @@ _Pre-requisite: ensure `docker` and `docker compose` are installed._
 
 ## Tests
 
-To run the tests, run `npm run test`.  
+To run the tests on a local build, run `npm run test` for one-off tests, `npm run test:watch` for watch mode.  
+To run one-off tests as a Docker instance, run 'make test'. For watch mode while development container already running, run `make it` in a separate terminal window, then run `npm run test:watch` in the shell.  
 Test files are stored in a `__test__` folder colocated in the respective folders where the function or component is being tested resides in.  
 For example, the test for the `chattyCounter` function is colocated in the `/api/upload` folder; whereas the test for the main landing `Page` component resides in the root of `src/app/` folder.
 
