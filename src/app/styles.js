@@ -48,6 +48,9 @@ export const Container = styled(Box)(({ theme }) => ({
     padding: "1rem",
     borderRadius: "25px",
     background: theme.palette.background.paper,
+    "@media (max-width: 640px)": {
+      height: "10rem",
+    },
 
     // border: "2px dotted black",
     boxShadow: "0px 5px 30px 5px black",
@@ -57,6 +60,8 @@ export const Container = styled(Box)(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    justifyContent: "center",
+    padding: "1rem",
   },
   "& .results-box-inner": {
     padding: "1rem",

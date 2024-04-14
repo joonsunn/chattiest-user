@@ -172,6 +172,7 @@ export default function Home() {
                 flexDirection: "row",
                 gap: "4px",
                 alignItems: "center",
+                flexWrap: "wrap",
               }}
             >
               <FormLabel
@@ -187,7 +188,11 @@ export default function Home() {
                 aria-labelledby="demo-radio-buttons-group-label"
                 defaultValue="word count"
                 name="radio-buttons-group"
-                sx={{ display: "flex", flexDirection: "row" }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "nowrap",
+                }}
                 onChange={(e) => setSortBy(e.target.value)}
               >
                 <FormControlLabel
