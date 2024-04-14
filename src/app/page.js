@@ -160,7 +160,7 @@ export default function Home() {
                 type="number"
                 value={topChattiest}
                 onInputChange={(_, value) => handleTextInput(Number(value))}
-                label="Top # chattiest users"
+                label="Top chatty users"
               />
             </Box>
           </Box>

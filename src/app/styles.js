@@ -18,9 +18,16 @@ export const StyledBox = styled(Box)(({ theme }) => ({
 
 export const Container = styled(Box)(({ theme }) => ({
   display: "grid",
-  gap: "5rem",
+  gap: "1rem",
   gridTemplateColumns: "1fr 0.75fr",
+  "@media (max-width: 640px)": {
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+    padding: "1rem",
+  },
   alignItems: "center",
+  justifyItems: "center",
   height: "100%",
   width: "100%",
   maxWidth: "1024px",
@@ -28,7 +35,10 @@ export const Container = styled(Box)(({ theme }) => ({
   "& .title-box": { display: "flex", alignItems: "center", gap: "8px" },
   minHeight: "300px",
   "& .upload-box": {
+    alignItems: "center",
+
     minHeight: "300px",
+    // width: "400px",
     display: "flex",
     flexDirection: "column",
     gap: "3rem",
@@ -41,9 +51,13 @@ export const Container = styled(Box)(({ theme }) => ({
 
     // border: "2px dotted black",
     boxShadow: "0px 5px 30px 5px black",
-    width: "100%",
+    width: "90%",
   },
-  "& .results-box": {},
+  "& .results-box": {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
   "& .results-box-inner": {
     padding: "1rem",
     // border: "1px solid black",
@@ -76,7 +90,7 @@ export const StyledButton = (props) => {
     borderRadius: "15px",
     border: `1px solid ${theme.palette.secondary.main}`,
     color: theme.palette.secondary.main,
-    width: "100px",
+    width: "60px",
     "&:hover": {
       backgroundColor: theme.palette.secondary.main,
       color: "white",
