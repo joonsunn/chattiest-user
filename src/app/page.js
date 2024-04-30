@@ -170,8 +170,9 @@ export default function Home() {
               sx={{
                 display: "flex",
                 flexDirection: "row",
-                gap: "4px",
+                gap: "16px",
                 alignItems: "center",
+                justifyContent: "center",
                 flexWrap: "wrap",
               }}
             >
@@ -192,6 +193,7 @@ export default function Home() {
                   display: "flex",
                   flexDirection: "row",
                   flexWrap: "nowrap",
+                  alignItems: "center",
                 }}
                 onChange={(e) => setSortBy(e.target.value)}
               >
