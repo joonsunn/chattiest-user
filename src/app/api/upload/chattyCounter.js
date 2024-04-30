@@ -6,7 +6,7 @@ export const chattyCounter = (string) => {
   let results = [];
 
   for (let i = 0; i < testStringArray.length; ++i) {
-    const line = testStringArray[i].split(" ");
+    const line = testStringArray[i].trim().split(" ");
     let userDetected = Array.from(testStringArray[i].matchAll(userRegex));
     if (userDetected.length > 0) {
       userDetected = userDetected[0].groups.user;
