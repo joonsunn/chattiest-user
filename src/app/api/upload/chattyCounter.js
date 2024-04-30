@@ -1,5 +1,5 @@
 export const chattyCounter = (string) => {
-  const userRegex = /^<(?<user>[\w\d]+)>\s?/gm;
+  const userRegex = /^<(?<user>[\w\d]+)>?/gm;
 
   const testStringArray = string.trim().split(/\n/);
   let currentUser;
@@ -7,7 +7,9 @@ export const chattyCounter = (string) => {
 
   for (let i = 0; i < testStringArray.length; ++i) {
     const line = testStringArray[i].trim().split(" ");
-    let userDetected = Array.from(testStringArray[i].matchAll(userRegex));
+    let userDetected = Array.from(
+      testStringArray[i].trim().matchAll(userRegex)
+    );
     if (userDetected.length > 0) {
       userDetected = userDetected[0].groups.user;
       currentUser = userDetected;
