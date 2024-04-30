@@ -83,7 +83,10 @@ function DialogInfo() {
         gap: "8px",
       }}
     >
-      <Box onClick={handleClickOpen}>
+      <Box
+        onClick={handleClickOpen}
+        sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+      >
         <Tooltip title="Info on log file format">
           <InfoIcon />
         </Tooltip>
