@@ -1,5 +1,11 @@
 import { chattyCounter } from "./chattyCounter";
 
+export async function GET() {
+  return new Response(
+    JSON.stringify({ data: "Hello from GET route on /api/upload" })
+  );
+}
+
 export async function POST(request) {
   try {
     const formData = await request.formData();

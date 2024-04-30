@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import GlobalStyles from "theme/GlobalStyles";
 import MyThemeProvider from "theme/theme";
 
+export const runtime = "edge";
+
 // import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
